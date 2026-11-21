@@ -1,6 +1,7 @@
-hl.config({ input = { kb_layout = "us, ara" } })
-hl.config({ input = { kb_model = "" } })
-hl.config({ input = { kb_options = "grp:shifts_toggle" } })
+-- Japanese JIS laptop keyboard; Japanese is the only configured XKB layout.
+hl.config({ input = { kb_layout = "jp" } })
+hl.config({ input = { kb_model = "jp106" } })
+hl.config({ input = { kb_options = "" } })
 hl.config({ input = { kb_rules = "" } })
 hl.config({ input = { follow_mouse = 1 } })
 hl.config({ input = { sensitivity = 0 } })
