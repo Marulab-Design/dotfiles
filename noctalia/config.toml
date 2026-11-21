@@ -12,7 +12,7 @@ order = [ "main" ]
     background_opacity = 0.90000000000000002
     capsule = false
     center = [ "clock_start", "clock", "clock_end" ]
-    enabled = true
+    enabled = false
     end = [
         "privacy",
         "tray",
@@ -125,7 +125,7 @@ enabled = true
     wifi = true
 
 [plugins]
-auto_update = false
+auto_update = "none"
 enabled = [ "noctalia/notes", "noctalia/translator" ]
 
     [[plugins.source]]
@@ -232,7 +232,8 @@ glyph = "settings-2"
 
 [widget.cpu]
 color = "on_surface_variant"
-display = "graph"
+visualization = "graph"
+show_value = true
 glyph = "cpu"
 label_min_width = 20
 stat = "cpu_usage"
@@ -244,11 +245,12 @@ show_label = true
 type = "volume"
 
 [widget.keyboard_layout]
-show_icon = false
+show_glyph = false
 
 [widget.net-down]
 color = "on_surface_variant"
-display = "text"
+visualization = "none"
+show_value = true
 label_min_width = 0
 network_speed_compact = true
 network_speed_unit = "auto"
@@ -256,7 +258,8 @@ stat = "net_rx"
 type = "sysmon"
 
 [widget.net-up]
-display = "text"
+visualization = "none"
+show_value = true
 label_min_width = 38
 network_speed_compact = true
 network_speed_unit = "auto"
@@ -269,7 +272,8 @@ icon_spacing = 4
 
 [widget.ram]
 color = "on_surface_variant"
-display = "text"
+visualization = "none"
+show_value = true
 glyph = "database"
 label_min_width = 59
 stat = "ram_used"
@@ -285,7 +289,8 @@ glyph = "power"
 
 [widget.temp]
 color = "on_surface_variant"
-display = "text"
+visualization = "none"
+show_value = true
 glyph = "temperature-celsius"
 glyph_position = "after"
 label_min_width = 0
@@ -304,12 +309,13 @@ show_label = true
 [widget.workspaces]
 change_color_on_hover = true
 color = "on_surface"
-display = "id"
-empty_color = "outline"
+label_source = "id"
+show_labels = true
+empty_color = "outline_variant"
 focused_color = "primary"
 focused_output_only = false
 max_label_chars = 1
-occupied_color = "surface_variant"
+occupied_color = "surface_container"
 scale = 1.1499999999999999
 style = "regular"
 urgent_color = "error"
