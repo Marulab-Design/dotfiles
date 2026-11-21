@@ -69,7 +69,7 @@ sudo pacman -S --needed hyprland noctalia kitty thunar hyprshot waybar \
   ttf-jetbrains-mono-nerd wl-clipboard iproute2 jq
 ```
 
-Noctalia provides the bar, notification daemon, launcher, lock, wallpaper, volume and brightness controls. Waybar is installed for the optional alternative in section 7; its audio click uses `pavucontrol`, network script uses `iproute2` and `jq`, and icons use the Nerd Font. `hyprshot` powers the window screenshot shortcut. Portals support screen sharing and file dialogs; PipeWire and WirePlumber provide audio. UPower provides battery information. Bluetooth is optional. Avoid starting another notification daemon, lock manager, wallpaper manager or panel alongside the equivalent Noctalia service unless configured intentionally.
+Waybar is the default bar and starts with Hyprland. Noctalia remains active for its notification daemon, launcher, lock, wallpaper, volume and brightness controls; its bar is disabled in `noctalia/config.toml`. Waybar's audio click uses `pavucontrol`, its network script uses `iproute2` and `jq`, and its icons use the Nerd Font. `hyprshot` powers the window screenshot shortcut. Portals support screen sharing and file dialogs; PipeWire and WirePlumber provide audio. UPower provides battery information. Bluetooth is optional. Avoid starting a second notification daemon, lock manager or wallpaper manager alongside Noctalia.
 
 If pacman reports an unavailable package, check `pacman -Ss <name>` and the current distro documentation before proceeding; do not use partial upgrades. Optional tools for personal shortcuts: `zen-browser` (Super+B), Obsidian (Super+O), and Linux Flow / T3Code global shortcuts. Install those separately from their trusted publishers or change the bindings in `hypr/config/keybindings.lua` and `hypr/hyprland.lua`. They are not required for the desktop. For Waybar's power profile widget, install `power-profiles-daemon` only if you want it and do not already use a conflicting power manager such as TLP.
 
@@ -107,7 +107,7 @@ Do not install unrelated applications merely to satisfy optional aliases. The al
 
 ## 5. First login and appearance
 
-1. Log out completely and select Hyprland, then log in. Noctalia starts automatically once per session. Give it time to initialize; open the launcher with **Super+Space** and settings with **Super+comma**.
+1. Log out completely and select Hyprland, then log in. Noctalia and Waybar start automatically once per session. Waybar is the panel; Noctalia remains active for its other shell services. Give Noctalia time to initialize; open the launcher with **Super+Space** and settings with **Super+comma**.
 2. Choose a wallpaper in Noctalia settings. The original referenced a file in another user's Downloads folder and is not included. Choose a local image or directory; Noctalia manages the wallpaper. The included `new-main` custom palette is in `~/.config/noctalia/palettes/`. Noctalia can generate Kitty and Hyprland theme files; the checked-in theme files provide initial defaults and generated colors may overwrite them.
 3. Run `hyprctl monitors all`. The default rule enables connected displays at preferred mode and scale 1 without assuming an `eDP-1` connector. Edit `~/.config/hypr/config/monitors.lua` for your actual connector names, placement and scale; for example, **replace `eDP-1` with the observed name**:
 
@@ -165,11 +165,11 @@ journalctl --user -b -p warning
 
 Run `hyprctl` and `noctalia msg` inside the logged-in Hyprland session. If the installed Hyprland version uses different CLI options, check `Hyprland --help`. After editing startup commands, log out and back in; a config reload does not re-run startup. If using Hyprland's optional permission enforcement, consult [Noctalia's Hyprland integration](https://docs.noctalia.dev/noctalia/compositor-settings/hyprland/) for permission rules and restart Hyprland: permissions don't take effect on reload. Resolve the actual Noctalia binary path instead of assuming it.
 
-## 7. Optional: use Waybar instead of the Noctalia bar
+## 7. Waybar default and the Noctalia bar
 
-Keep Noctalia running for its launcher, lock, wallpaper, notifications and IPC bindings. Disable the Noctalia bar in its Settings (or `noctalia msg bar-hide main`; GUI state can override TOML), then start `waybar` from a terminal. Confirm you have only one bar and all modules work. To start Waybar each login, add `hl.exec_cmd("waybar")` inside the existing `hyprland.start` callback in `~/.config/hypr/config/autostart.lua`. Do not start it twice.
+Waybar is the default panel and is started by `hypr/config/autostart.lua`. Noctalia also starts, but its bar is disabled in `noctalia/config.toml` so its launcher, lock, wallpaper, notifications and IPC services remain available without creating a second panel. On an existing installation, Noctalia's GUI-managed state can override the TOML setting; if its bar still appears, disable it in Noctalia Settings. Do not start a second Waybar manually. To switch back to the Noctalia bar, remove the `hl.exec_cmd("waybar")` autostart line and re-enable the bar in Noctalia Settings.
 
-Waybar's temperature module relies on an available sensor. If it shows the wrong reading or fails, inspect `ls /sys/class/thermal/thermal_zone*/type` and configure the correct `thermal-zone` or `hwmon-path` in `~/.config/waybar/config.jsonc` per the [Waybar temperature manual](https://github.com/Alexays/Waybar/wiki/Module:-Temperature). The power-profile module needs a running power-profiles-daemon. Menu hibernation needs a separately configured and tested swap/resume setup; don't assume it works. If the network counter says offline, check `ip route` and whether your VPN/default route is the intended interface. To return to the default, stop Waybar, remove its autostart and re-enable Noctalia's bar.
+Waybar's temperature module relies on an available sensor. If it shows the wrong reading or fails, inspect `ls /sys/class/thermal/thermal_zone*/type` and configure the correct `thermal-zone` or `hwmon-path` in `~/.config/waybar/config.jsonc` per the [Waybar temperature manual](https://github.com/Alexays/Waybar/wiki/Module:-Temperature). The power-profile module needs a running power-profiles-daemon. Menu hibernation needs a separately configured and tested swap/resume setup; don't assume it works. If the network counter says offline, check `ip route` and whether your VPN/default route is the intended interface.
 
 ## 8. Troubleshooting and rollback
 

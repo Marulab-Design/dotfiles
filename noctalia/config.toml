@@ -12,7 +12,7 @@ order = [ "main" ]
     background_opacity = 0.90000000000000002
     capsule = false
     center = [ "clock_start", "clock", "clock_end" ]
-    enabled = true
+    enabled = false
     end = [
         "privacy",
         "tray",
